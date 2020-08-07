@@ -48,6 +48,8 @@ Daniel D
 
 ## Version History
 
+* 0.2
+	* Added Light / Dark Color Mode
 * 0.1
     * Initial Release
 
