@@ -1,7 +1,18 @@
-package PasswordGenerator;
+/**
+ * Password Generator
+ * An instance of this class is used to generate a password.
+ * Where you can define the length, whether to use symbols, and a multiplier.
+ */
+package com.danield.PasswordGenerator;
 import java.util.*; // Random, List(ArrayList,LinkedList,Vector,Stack)
 import java.lang.Character;
 
+/**
+ * An instance of this class is used to generate a password.
+ * Where you can define the length, whether to use symbols, and a multiplier.
+ * @author Daniel D
+ * @version 0.1
+ */
 public class PwGen {
 	
 	private final String errmsgPwToShort = "Choose a password length >= 4";
@@ -14,26 +25,39 @@ public class PwGen {
 	private int length;
 	private Random rnd = new Random();
 	
-	// Default set up
+	/**
+	 * Default set up
+	 */
 	public PwGen() {
-		this.length = 10;
-		this.bSymbols = true;
+		length = 10;
+		bSymbols = true;
 	}
 	
-	// Custom set up
+	/**
+	 * Custom set up
+	 * @param length
+	 * @param symbols
+	 */
 	public PwGen(int length, boolean symbols) {
 		this.length = length;
-		this.bSymbols = symbols;
+		bSymbols = symbols;
 	}
 	
-	// Generate one password
+	/**
+	 * Generate one password
+	 * @return string: password
+	 */
 	public String Generate() {
 		if (this.length < 4)
 			return errmsgPwToShort;
 		return CalcPw();
 	}
 	
-	// Generate one password
+	/**
+	 * Generate one password
+	 * @param length
+	 * @return string: password
+	 */
 	public String Generate(int length) {
 		if (length < 4)
 			return errmsgPwToShort;
@@ -41,28 +65,45 @@ public class PwGen {
 		return CalcPw();
 	}
 	
-	// Generate one password
+	/**
+	 * Generate one password
+	 * @param length
+	 * @param symbols
+	 * @return string: password
+	 */
 	public String Generate(int length, boolean symbols) {
 		if (length < 4)
 			return errmsgPwToShort;
 		this.length = length;
-		this.bSymbols = symbols;
+		bSymbols = symbols;
 		return CalcPw();
 	}
 	
-	// Set password length
+	/**
+	 * Set password length
+	 * @param length
+	 */
 	public void setLength(int length) {
 		this.length = length;
 	}
 	
-	// Whether or not to use symbols
+	/**
+	 * Whether or not to use symbols
+	 * @param symbols
+	 */
 	public void setSymbols(boolean symbols) {
-		this.bSymbols = symbols;
+		bSymbols = symbols;
 	}
 	
 	//########################################PRIVATE METHODS########################################
 	
-	// Swaps two positions in a string
+	/**
+	 * Swaps two positions in a string
+	 * @param str
+	 * @param i0
+	 * @param i1
+	 * @return string: swapped string
+	 */
 	private String Swap(String str, int i0, int i1) {
 		char[] ca = str.toCharArray();
 		char tmp = ca[i0];
@@ -71,10 +112,14 @@ public class PwGen {
 		return new String(ca);
 	}
 	
-	// Make sure that the password contains at least 1 lower 1 upper 1 number (1 symbol)
+	/**
+	 * Make sure that the password contains at least 1 lower 1 upper 1 number (1 symbol)
+	 * @param pw
+	 * @return boolean: true or false
+	 */
 	private boolean ValidatePassword(String pw) {
-		boolean lowerLetter = false;
-		boolean upperLetter = false;
+		boolean lower = false;
+		boolean upper = false;
 		boolean digit = false;
 		boolean symbol = false;
 		char[] tmp = pw.toCharArray();
@@ -82,34 +127,37 @@ public class PwGen {
 		// check
 		for (int i = 0; i < tmp.length; i++) {
 			if (!digit && Character.isDigit(tmp[i])) { digit = true; continue; }
-			if (!lowerLetter || !upperLetter && Character.isLetter(tmp[i])) {
-				if (!lowerLetter && Character.isLowerCase(tmp[i])) { lowerLetter = true; continue; }
-				if (!upperLetter && Character.isUpperCase(tmp[i])) { upperLetter = true; continue; }
+			if (!lower || !upper && Character.isLetter(tmp[i])) {
+				if (!lower && Character.isLowerCase(tmp[i])) { lower = true; continue; }
+				if (!upper && Character.isUpperCase(tmp[i])) { upper = true; continue; }
 			}
-			if (this.bSymbols && !symbol && !Character.isLetter(tmp[i]) && !Character.isDigit(tmp[i])) { symbol = true; }
+			if (bSymbols && !symbol && !Character.isLetter(tmp[i]) && !Character.isDigit(tmp[i])) { symbol = true; }
 		}
 		
 		// return
-		if (lowerLetter && upperLetter && digit) {
-			if (this.bSymbols && symbol) { return true; }
-			else if (this.bSymbols && !symbol) { return false; }
+		if (lower && upper && digit) {
+			if (bSymbols && symbol) { return true; }
+			else if (bSymbols && !symbol) { return false; }
 			else { return true; }
 		}
 		return false;
 	}
 	
-	// Password Generator
+	/**
+	 * Password Generator
+	 * @return string: password
+	 */
 	private String CalcPw() {
 		char[] characters = ShuffleStrings().toCharArray();
 		String password = "";
 		
 		// Generate random numbers
 		List<Integer> rndNums = new ArrayList<Integer>();
-		while (rndNums.size() != this.length)
+		while (rndNums.size() != length)
 			rndNums.add(rnd.nextInt(characters.length));
 		
 		// Generate one password
-		while (password.length() != this.length) {
+		while (password.length() != length) {
 			password += characters[rndNums.get(0)];
 			rndNums.remove(0);
 		}
@@ -119,10 +167,14 @@ public class PwGen {
 		return password;
 	}
 	
-	// Combine multiple strings into one large str, then shuffle positions "shuffTimes" times
-	// This method is supposed to add extra randomness to the Generator
+	/**
+	 * Combine multiple strings into one large string,
+	 * then shuffle positions "shuffTimes" times.
+	 * This method is supposed to add extra randomness to the Generator
+	 * @return string: shuffled string
+	 */
 	private String ShuffleStrings() {
-		String shuffStr = this.lowerLetters + this.upperLetters + this.numbers;
+		String shuffStr = lowerLetters + upperLetters + numbers;
 		if (bSymbols)
 			shuffStr += symbols;
 		

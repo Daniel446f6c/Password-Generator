@@ -1,12 +1,23 @@
-package PasswordGenerator;
+/**
+ * Program Entry Point & Window
+ */
+package com.danield.PasswordGenerator;
 import javax.swing.*;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.*;
 
+/**
+ * @author Daniel D
+ * @version 0.2
+ */
 public class Main extends JFrame {
-
+	
+	/**
+	 * Entry Point of the Application
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		new Main(winTitle);
 	}
@@ -33,16 +44,23 @@ public class Main extends JFrame {
 	private JButton btnSwitchLDMode; // Button to switch between light and dark mode
 	private PwGen pwGen = new PwGen(); // instance of Password Generator Class
 	
+	/**
+	 * Constructor
+	 *@param arg0 - Window Title
+	 */
 	public Main(String arg0) {
 		super(arg0);
+		this.setSize(winSize[0], winSize[1]);
+		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		InitUI();
+		initUI();
 		this.setVisible(true);
 	}
 	
-	// Init the UI and all of its components including inline ActionListener,
-	// except for the window title
-	private void InitUI() {
+	/**
+	 * Initialize the UI and all of its components including inline ActionListener
+	 */
+	private void initUI() {
 		this.getContentPane().removeAll();
 		this.getContentPane().revalidate();
 		if (darkModeIsOn) {
@@ -51,8 +69,6 @@ public class Main extends JFrame {
 		else {
 			this.getContentPane().setBackground(Color.LIGHT_GRAY);
 		}
-		this.setSize(winSize[0], winSize[1]);
-		this.setResizable(false);
 		this.setLayout(null);
 		
 		//##########################################################
@@ -213,11 +229,10 @@ public class Main extends JFrame {
 						cachedMultiplier = cbxMultiplier.getSelectedIndex();
 						
 						scrollOutput.remove(txtOutput); // remove JTextArea from JScrollPane or encounter bugs
-						InitUI(); // rebuild the ui
+						initUI(); // rebuild the ui
 					}
 				});
 		this.getContentPane().add(btnSwitchLDMode);
-		
 	}
 	
 }
